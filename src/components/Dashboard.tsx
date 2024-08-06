@@ -48,7 +48,7 @@ export default function Dashboard() {
         <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
       </div>
       <div className="grid gap-4 ">
-        <div className="grid gap-4  lg:grid-cols-6 xl:grid-col-6 ">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-6">
           <Card x-chunk="dashboard-01-chunk-0" className="dark:bg-slate-800">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -67,7 +67,7 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex justify-between items-center">
-              <div className="text-3xl font-bold">75</div>
+              <div className="text-2xl sm:text-3xl font-bold">75</div>
               <div className="text-sm  text-muted-foreground flex justify-between items-center">
                 <Play
                   className="size-4 mx-1"
@@ -97,7 +97,7 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex justify-between items-center">
-              <div className="text-3xl font-bold">70</div>
+              <div className="text-2xl sm:text-3xl font-bold">70</div>
               <div className="text-sm  text-muted-foreground flex justify-between items-center">
                 <Play
                   className="size-4 mx-1"
@@ -127,7 +127,7 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex justify-between items-center">
-              <div className="text-3xl font-bold">05</div>
+              <div className="text-2xl sm:text-3xl font-bold">05</div>
               <div className="text-sm  text-muted-foreground flex justify-between items-center">
                 <Play
                   className="size-4 mx-1"
@@ -157,7 +157,7 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex justify-between items-center">
-              <div className="text-3xl font-bold">$12k</div>
+              <div className="text-2xl sm:text-3xl font-bold">$12k</div>
               <div className="text-sm  text-muted-foreground flex justify-between items-center">
                 <Play
                   className="size-4 mx-1"
@@ -171,7 +171,7 @@ export default function Dashboard() {
           </Card>
           <Card
             x-chunk="dashboard-01-chunk-4"
-            className="flex flex-col dark:bg-slate-800 col-span-2"
+            className="flex flex-col dark:bg-slate-800 col-span-1 lg:col-span-2"
           >
             <CardHeader className="inline pt-2 pb-2">
               <CardTitle className="text-sm font-medium inline">
@@ -180,13 +180,15 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="flex-1 pb-3 flex justify-between items-center">
               <div>
-                <div className="text-4xl font-bold mb-4">$6759.25</div>
+                <div className="text-2xl sm:text-4xl font-bold mb-4">
+                  $6759.25
+                </div>
                 <span className="flex space-x-1 green-400 items-center">
-                  <Triangle
-                    fill="lightgreen"
-                    stroke="lightgreen"
-                    className="size-4"
+                  <Play
+                    className="size-4 mx-1"
                     color="lightgreen"
+                    fill="lightgreen"
+                    transform="rotate(270)"
                   />
                   <p className="text-sm text-green-400">3%</p>
                 </span>
@@ -257,7 +259,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
-        <div className="grid xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-6 gap-4">
           <ActivityChart />
           <Card
             x-chunk="dashboard-01-chunk-6"
@@ -339,7 +341,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
-        <div className="grid xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-6 gap-4">
           <Card
             className="col-span-4 dark:bg-slate-800"
             x-chunk="dashboard-01-chunk-4"
