@@ -236,7 +236,9 @@ export default function Header() {
                 <DrawerTitle>Mail</DrawerTitle>
                 <DrawerDescription>Check your mail here</DrawerDescription>
               </DrawerHeader>
-              <div className="px-4 pb-40">No new mails founds. </div>
+              <div className="px-4 pb-40 text-center sm:text-left">
+                No new mails founds.{" "}
+              </div>
             </DrawerContent>
           )}
           {isNotificationsDrawerOpen && (
@@ -247,7 +249,9 @@ export default function Header() {
                   All your notifications will be shown here
                 </DrawerDescription>
               </DrawerHeader>
-              <div className="px-4 pb-40">No notifications to show</div>
+              <div className="px-4 pb-40 text-center sm:text-left">
+                No notifications to show
+              </div>
             </DrawerContent>
           )}
           {isSettingsDrawerOpen && (
@@ -296,7 +300,7 @@ function SettingsDrawer({ setAccent, accent }: SettingsDrawerProps) {
         <p className="mb-2 font-medium">Theme</p>
         <Tabs
           defaultValue={accent}
-          className="w-[400px]"
+          className="w-full sm:w-[400px] text-sm overflow-auto"
           onValueChange={(v) => {
             setAccent(v as Accent);
           }}
