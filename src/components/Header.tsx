@@ -20,8 +20,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
+import { useState } from "react";
 import { Accent, AccentColor, useTheme } from "../components/ThemeProvider";
 import LogoutAlert from "./LogoutAlert";
 import {
@@ -32,11 +31,31 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 
 export default function Header() {
   const { setTheme, setAccent, accent } = useTheme();
+  const [isMailDrawerOpen, setIsMailDrawerOpen] = useState(false);
+  const [isNotificationsDrawerOpen, setIsNotificationsDrawerOpen] =
+    useState(false);
+  const [isSupportAlertDialogOpen, setIsSupportAlertDialogOpen] =
+    useState(false);
+  const [isSettingsDrawerOpen, setIsSettingsDrawerOpen] = useState(false);
+  const [isLogoutAlertDialogOpen, setIsLogoutAlertDialogOpen] = useState(false);
+
+  function onOpenChange(value: boolean) {
+    if (isMailDrawerOpen) {
+      setIsMailDrawerOpen(value);
+    }
+    if (isNotificationsDrawerOpen) {
+      setIsNotificationsDrawerOpen(value);
+    }
+    if (isSettingsDrawerOpen) {
+      setIsSettingsDrawerOpen(value);
+    }
+  }
 
   return (
     <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4 dark:bg-slate-800">
@@ -125,126 +144,138 @@ export default function Header() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon" className="rounded-full ml-6">
-            <Avatar className=" h-9 w-9 flex">
-              <AvatarImage src="/images/me.png" alt="Avatar" />
-              <AvatarFallback>
-                <CircleUser className="h-5 w-5" />
-              </AvatarFallback>
-            </Avatar>
-            <span className="sr-only">Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator className="sm:hidden flex" />
-
-          <DropdownMenuItem
-            onClick={(e) => e.preventDefault()}
-            className="sm:hidden flex"
-          >
-            <Drawer>
-              <DrawerTrigger asChild>
-                <span>Mail</span>
-              </DrawerTrigger>
-              <DrawerContent className="max-h-[80vh]">
-                <DrawerHeader>
-                  <DrawerTitle>Mail</DrawerTitle>
-                  <DrawerDescription>Check your mail here</DrawerDescription>
-                </DrawerHeader>
-                <div className="px-4 pb-40">No new mails founds. </div>
-              </DrawerContent>
-            </Drawer>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={(e) => e.preventDefault()}
-            className="sm:hidden flex"
-          >
-            <Drawer>
-              <DrawerTrigger asChild>
-                <span>Notifications</span>
-              </DrawerTrigger>
-              <DrawerContent className="max-h-[80vh]">
-                <DrawerHeader>
-                  <DrawerTitle>Notifications</DrawerTitle>
-                  <DrawerDescription>
-                    All your notifications will be shown here
-                  </DrawerDescription>
-                </DrawerHeader>
-                <div className="px-4 pb-40">No notifications to show</div>
-              </DrawerContent>
-            </Drawer>
-          </DropdownMenuItem>
-
+      <Drawer
+        open={
+          isMailDrawerOpen || isNotificationsDrawerOpen || isSettingsDrawerOpen
+        }
+        onOpenChange={onOpenChange}
+      >
+        <AlertDialog
+          open={isSupportAlertDialogOpen || isLogoutAlertDialogOpen}
+          onOpenChange={
+            isSupportAlertDialogOpen
+              ? setIsSupportAlertDialogOpen
+              : setIsLogoutAlertDialogOpen
+          }
+        >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <DropdownMenuItem className="sm:hidden flex">
-                <span>Toggle Theme</span>
-              </DropdownMenuItem>
+              <Button
+                variant="secondary"
+                size="icon"
+                className="rounded-full ml-6"
+              >
+                <Avatar className=" h-9 w-9 flex">
+                  <AvatarImage src="/images/me.png" alt="Avatar" />
+                  <AvatarFallback>
+                    <CircleUser className="h-5 w-5" />
+                  </AvatarFallback>
+                </Avatar>
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator className="sm:hidden flex" />
+              <DropdownMenuItem
+                className="sm:hidden flex"
+                onClick={() => setIsMailDrawerOpen(true)}
+              >
+                <span>Mail</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
+
+              <DropdownMenuItem
+                className="sm:hidden flex"
+                onClick={() => setIsNotificationsDrawerOpen(true)}
+              >
+                <span>Notifications</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
-                System
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <DropdownMenuItem className="sm:hidden flex">
+                    <span>Toggle Theme</span>
+                  </DropdownMenuItem>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    Light
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    Dark
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("system")}>
+                    System
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => setIsSettingsDrawerOpen(true)}>
+                <span>Settings</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => setIsSupportAlertDialogOpen(true)}
+              >
+                <span>Support</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => setIsLogoutAlertDialogOpen(true)}
+              >
+                <span>Logout</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-            <Drawer>
-              <DrawerTrigger asChild>
-                <span>Settings</span>
-              </DrawerTrigger>
-              <SettingsDrawer accent={accent} setAccent={setAccent} />
-            </Drawer>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-            <AlertDialog>
-              <AlertDialogTrigger>Support</AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Support</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Email me on{" "}
-                    <a
-                      href="mailto:vishmallik@gmail.com"
-                      className="text-blue-500"
-                    >
-                      vishmallik@gmail.com
-                    </a>{" "}
-                    to connect
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
-                  <AlertDialogAction>Okay</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={(e) => {
-              e.preventDefault();
-              console.dir(e);
-            }}
-          >
-            <AlertDialog>
-              <AlertDialogTrigger>Logout</AlertDialogTrigger>
-              <LogoutAlert />
-            </AlertDialog>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          {isMailDrawerOpen && (
+            <DrawerContent className="max-h-[80vh]">
+              <DrawerHeader>
+                <DrawerTitle>Mail</DrawerTitle>
+                <DrawerDescription>Check your mail here</DrawerDescription>
+              </DrawerHeader>
+              <div className="px-4 pb-40">No new mails founds. </div>
+            </DrawerContent>
+          )}
+          {isNotificationsDrawerOpen && (
+            <DrawerContent className="max-h-[80vh]">
+              <DrawerHeader>
+                <DrawerTitle>Notifications</DrawerTitle>
+                <DrawerDescription>
+                  All your notifications will be shown here
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className="px-4 pb-40">No notifications to show</div>
+            </DrawerContent>
+          )}
+          {isSettingsDrawerOpen && (
+            <SettingsDrawer accent={accent} setAccent={setAccent} />
+          )}
+          {isSupportAlertDialogOpen && (
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Support</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Email me on{" "}
+                  <a
+                    href="mailto:vishmallik@gmail.com"
+                    className="text-blue-500"
+                  >
+                    vishmallik@gmail.com
+                  </a>{" "}
+                  to connect
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction>Okay</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          )}
+          {isLogoutAlertDialogOpen && <LogoutAlert />}
+        </AlertDialog>
+      </Drawer>
     </header>
   );
 }
